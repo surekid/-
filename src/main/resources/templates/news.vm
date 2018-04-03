@@ -1,0 +1,60 @@
+<html>
+<body>
+<pre>
+    Hello VM.
+
+    <!--加了！为空就不显示，如果确定不为空，可以不加！.{}可加可不加 -->
+    $!{value1}
+    $!{value2}
+    ${valu2222}
+
+    <!--list的遍历 -->
+    #foreach($color in $cols)
+    Color $!{foreach.index}/$!{foreach.count}:$!{color}
+    #end
+
+    <!--map的遍历1 -->
+    #foreach($key in $map.keySet())
+    Num $!{foreach.index}/$!{foreach.count}:$!{key}--$map.get($key)
+    #end
+    <!--map的遍历2 -->
+    #foreach($kv in $map.entrySet())
+    Num2 $!{foreach.index}/$!{foreach.count}:$!{kv.key}--$kv.value
+    #end
+
+    <!--  传递自定义对象-->
+    $!{user.name}
+    $!{user.getName()}
+
+    <!-- 将重复的页面包含进来-->
+    #set($title="清水河第一帅")
+    <!--将文本直接包含进来 -->
+    Include:#include("header.vm") <br>
+    <!--将模板进行编译转化，会将变量拿真实值替换 -->
+    Parse:#parse("header.vm")
+
+    <!--预定义函数 -->
+    #macro(render_color,$color,$index)
+    Color By Macro $index,$color
+    #end
+
+    #foreach($color in $cols)
+    ##调用函数
+    #render_color($color,$foreach.index)
+    #end
+
+    #set($hello ="hello")
+    ##双引号才会对模板进行解析，单引号只是文本
+    #set($hworld1="$!{hello}  world")
+    #set($hworld2='$!{hello}  world')
+
+    hworld1:$hworld1
+    hworld2:$hworld2
+
+    ##注释
+    #*
+    块的注释
+     *#
+</pre>
+</body>
+</html>
